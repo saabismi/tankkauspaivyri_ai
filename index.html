@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-tankkauspäivyri 1.0</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="top-bar">
+        <h1>AI-Tankkauspäivyri 1.0</h1>
+        <div id="languageDropdown">
+            <button class="languageButton">Language</button>
+            <div id="languageMenu" class="languageMenu">
+                <div class="languageOption" data-lang="en">English</div>
+                <div class="languageOption" data-lang="fi">Finnish</div>
+                <!-- Add other language options here as needed -->
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <form id="refuelForm">
+            <!-- Input fields in two columns -->
+            <div class="refuel-inputs">
+                <div class="input-group">
+                    <label for="dateInput">Date:</label>
+                    <input type="date" id="dateInput">
+                </div>
+                <div class="input-group">
+                    <label for="kilometersInput">Kilometers:</label>
+                    <input type="number" id="kilometersInput" step="0.1" min="0" required>
+                </div>
+                <div class="input-group">
+                    <label for="litersInput">Liters:</label>
+                    <input type="number" id="litersInput" step="0.01" min="0" required>
+                </div>
+                <div class="input-group">
+                    <label for="fuelTypeInput">Fuel Type:</label>
+                    <select id="fuelTypeInput">
+                        <option value="95E10">95E10</option>
+                        <option value="98E5">98E5</option>
+                        <option value="RE85">RE85</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="petrolStationInput">Petrol Station:</label>
+                    <input type="text" id="petrolStationInput">
+                </div>
+                <div class="input-group">
+                    <label for="pricePerLiterInput">Price per Liter (€):</label>
+                    <input type="number" id="pricePerLiterInput" step="0.001" min="0" required>
+                </div>
+            </div>
+            <!-- Add Refuel button -->
+            <button id="addRefuelBtn" type="submit">Add Refuel</button>
+        </form>
+
+        <!-- Log table -->
+        <table class="log-table">
+            <thead>
+                <tr>
+                    <th id="dateHeader">Date</th>
+                    <th id="kilometersHeader">Kilometers</th>
+                    <th id="litersHeader">Liters</th>
+                    <th id="fuelTypeHeader">Fuel Type</th>
+                    <th id="petrolStationHeader">Petrol Station</th>
+                    <th id="pricePerLiterHeader">Price per Liter (€)</th>
+                    <th id="totalCostHeader">Total Cost (€)</th>
+                    <th id="avgConsumptionHeader">Average Consumption (L/100km)</th>
+                </tr>
+            </thead>
+            <tbody id="logBody">
+                <!-- Log data will be dynamically inserted here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script src="languages.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
