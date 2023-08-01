@@ -17,19 +17,20 @@
       <form id="fuel-log-form">
         <div class="form-row">
           <label for="date">Date:</label>
-          <input type="text" id="date" readonly>
+          <input type="date" id="date" required>
         </div>
         <div class="form-row">
+          <!-- Add required attribute to other input fields -->
           <label for="odometer">Odometer reading:</label>
-          <input type="text" id="odometer" inputmode="numeric">
+          <input type="text" id="odometer" inputmode="numeric" required>
         </div>
         <div class="form-row">
           <label for="fuel-amount">Fuel amount:</label>
-          <input type="text" id="fuel-amount" inputmode="decimal">
+          <input type="text" id="fuel-amount" inputmode="decimal" required>
         </div>
         <div class="form-row">
           <label for="fuel-type">Fuel type:</label>
-          <select id="fuel-type">
+          <select id="fuel-type" required>
             <option value="95E10">95E10</option>
             <option value="98E5">98E5</option>
             <option value="RE85">RE85</option>
@@ -38,11 +39,11 @@
         </div>
         <div class="form-row">
           <label for="price-per-liter">Price per liter (€):</label>
-          <input type="text" id="price-per-liter" inputmode="decimal">
+          <input type="text" id="price-per-liter" inputmode="decimal" required>
         </div>
         <div class="form-row">
           <label for="petrol-station-name">Petrol station name:</label>
-          <input type="text" id="petrol-station-name">
+          <input type="text" id="petrol-station-name" required>
         </div>
       </form>
       <button id="submit-button" class="submit-button">Submit</button>
