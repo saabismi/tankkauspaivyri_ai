@@ -1,208 +1,75 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI-tankkauspäivyri 1.1</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f0f0f0;
-      margin: 0;
-    }
-
-    .top-bar {
-      background-color: #4CAF50;
-      color: #fff;
-      text-align: center;
-      padding: 10px;
-    }
-
-    .container {
-      max-width: 60%;
-      margin: 20px auto;
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 5px;
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-
-    .form-group label {
-      min-width: 150px;
-      margin-right: 10px;
-    }
-
-    .form-group input[type="text"],
-    .form-group input[type="number"],
-    .form-group select {
-      flex: 1;
-      padding: 5px;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    th, td {
-      border: 1px solid #ddd;
-      padding: 8px;
-      text-align: center;
-    }
-
-    th {
-      background-color: #f2f2f2;
-    }
-
-    th:nth-child(6), td:nth-child(6) {
-      text-align: right;
-    }
-
-    .submit-btn {
-      background-color: #4CAF50;
-      color: #fff;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    .submit-btn:hover {
-      background-color: #45a049;
-    }
-
-    .bottom-text {
-      text-align: center;
-      margin-top: 20px;
-      color: #888;
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="top-bar">AI-tankkauspäivyri 1.1</div>
-  <div class="container">
-    <div class="form-group">
-      <label for="date">Date:</label>
-      <input type="text" id="date" readonly>
+  <header>
+    <div class="top-bar">
+      <h1>AI-tankkauspäivyri 1.1</h1>
     </div>
-    <div class="form-group">
-      <label for="odometer">Odometer Reading (km):</label>
-      <input type="number" id="odometer" step="0.01">
+  </header>
+  <main>
+    <div class="form-container">
+      <form id="fuel-log-form">
+        <div class="form-row">
+          <label for="date">Date:</label>
+          <input type="text" id="date" readonly>
+        </div>
+        <div class="form-row">
+          <label for="odometer">Odometer reading:</label>
+          <input type="text" id="odometer" inputmode="numeric">
+        </div>
+        <div class="form-row">
+          <label for="fuel-amount">Fuel amount:</label>
+          <input type="text" id="fuel-amount" inputmode="decimal">
+        </div>
+        <div class="form-row">
+          <label for="fuel-type">Fuel type:</label>
+          <select id="fuel-type">
+            <option value="95E10">95E10</option>
+            <option value="98E5">98E5</option>
+            <option value="RE85">RE85</option>
+            <option value="Diesel">Diesel</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label for="price-per-liter">Price per liter (€):</label>
+          <input type="text" id="price-per-liter" inputmode="decimal">
+        </div>
+        <div class="form-row">
+          <label for="petrol-station-name">Petrol station name:</label>
+          <input type="text" id="petrol-station-name">
+        </div>
+      </form>
+      <button id="submit-button" class="submit-button">Submit</button>
     </div>
-    <div class="form-group">
-      <label for="fuel-amount">Fuel Amount (liters):</label>
-      <input type="number" id="fuel-amount" step="0.01">
+    <div class="table-container">
+      <table id="fuel-log-table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Odometer</th>
+            <th>Fuel Amount</th>
+            <th>Fuel Type</th>
+            <th>Price per liter (€)</th>
+            <th>Total Cost</th>
+            <th>Location</th>
+            <th>Average Consumption</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Data rows will be dynamically inserted here -->
+        </tbody>
+      </table>
     </div>
-    <div class="form-group">
-      <label for="fuel-type">Fuel Type:</label>
-      <select id="fuel-type">
-        <option value="95E10">95E10</option>
-        <option value="98E5">98E5</option>
-        <option value="RE85">RE85</option>
-        <option value="Diesel">Diesel</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label for="price-per-liter">Price per Liter (€):</label>
-      <input type="number" id="price-per-liter" step="0.001">
-    </div>
-    <div class="form-group">
-      <label for="petrol-station">Petrol Station Name:</label>
-      <input type="text" id="petrol-station">
-    </div>
-    <button class="submit-btn" onclick="submitForm()">Submit</button>
-    <table id="fuel-log">
-      <tr>
-        <th>Date</th>
-        <th>Odometer (km)</th>
-        <th>Fuel Amount (liters)</th>
-        <th>Fuel Type</th>
-        <th>Price per Liter (€)</th>
-        <th>Total Cost (€)</th>
-        <th>Location</th>
-        <th>Average Consumption (L/100km)</th>
-      </tr>
-    </table>
-  </div>
-  <div class="bottom-text">2023 - saabismi</div>
-
-  <script>
-    const fuelLogTable = document.getElementById('fuel-log');
-    const submitButton = document.querySelector('.submit-btn');
-    const dateInput = document.getElementById('date');
-    const odometerInput = document.getElementById('odometer');
-    const fuelAmountInput = document.getElementById('fuel-amount');
-    const fuelTypeInput = document.getElementById('fuel-type');
-    const pricePerLiterInput = document.getElementById('price-per-liter');
-    const petrolStationInput = document.getElementById('petrol-station');
-
-    function getCurrentDate() {
-      const now = new Date();
-      const day = String(now.getDate()).padStart(2, '0');
-      const month = String(now.getMonth() + 1).padStart(2, '0');
-      const year = now.getFullYear();
-      return `${day}.${month}.${year}`;
-    }
-
-    function calculateAverageConsumption() {
-      const rows = fuelLogTable.querySelectorAll('tr:not(:first-child)');
-      if (rows.length < 2) return '';
-
-      const lastRow = rows[rows.length - 1];
-      const prevRow = rows[rows.length - 2];
-      const fuelConsumed = lastRow.cells[2].textContent;
-      const distanceTraveled = lastRow.cells[1].textContent - prevRow.cells[1].textContent;
-
-      if (fuelConsumed === '' || distanceTraveled === 0) return '';
-
-      const consumption = (fuelConsumed / distanceTraveled) * 100;
-      return consumption.toFixed(2);
-    }
-
-    function submitForm() {
-      const date = getCurrentDate();
-      const odometer = odometerInput.value;
-      const fuelAmount = fuelAmountInput.value;
-      const fuelType = fuelTypeInput.value;
-      const pricePerLiter = pricePerLiterInput.value;
-      const totalCost = (fuelAmount * pricePerLiter).toFixed(2);
-      const petrolStation = petrolStationInput.value;
-      const averageConsumption = calculateAverageConsumption();
-
-      const newRow = `
-        <tr>
-          <td>${date}</td>
-          <td>${odometer}</td>
-          <td>${fuelAmount}</td>
-          <td>${fuelType}</td>
-          <td>${pricePerLiter}</td>
-          <td>${totalCost}</td>
-          <td>${petrolStation}</td>
-          <td>${averageConsumption}</td>
-        </tr>
-      `;
-
-      fuelLogTable.insertAdjacentHTML('beforeend', newRow);
-      clearForm();
-    }
-
-    function clearForm() {
-      odometerInput.value = '';
-      fuelAmountInput.value = '';
-      pricePerLiterInput.value = '';
-      petrolStationInput.value = '';
-      dateInput.value = getCurrentDate();
-    }
-
-    window.onload = () => {
-      dateInput.value = getCurrentDate();
-    };
-  </script>
+  </main>
+  <footer>
+    <p>2023 - saabismi</p>
+  </footer>
+  <script src="script.js"></script>
 </body>
 </html>

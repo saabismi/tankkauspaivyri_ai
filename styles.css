@@ -1,0 +1,88 @@
+body {
+    font-family: "Segoe UI", sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+  }
+  
+  header {
+    background-color: green;
+    text-align: center;
+    padding: 10px;
+  }
+  
+  .top-bar {
+    color: white;
+    font-weight: bold;
+  }
+  
+  main {
+    margin: 20px auto;
+    max-width: 60%;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  }
+  
+  .form-container {
+    text-align: center;
+  }
+  
+  .form-row {
+    margin: 10px;
+  }
+  
+  .form-row label,
+  .form-row input,
+  .form-row select {
+    display: block;
+    width: 100%;
+  }
+  
+  .form-row input,
+  .form-row select {
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .form-row select {
+    width: 50%;
+  }
+  
+  .submit-button {
+    background-color: green;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .table-container {
+    margin-top: 20px;
+  }
+  
+  #fuel-log-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  #fuel-log-table th,
+  #fuel-log-table td {
+    padding: 8px;
+    text-align: center;
+    border: 1px solid #ccc;
+  }
+  
+  footer {
+    text-align: center;
+    margin-top: 20px;
+    padding: 10px;
+    background-color: green;
+    color: white;
+    font-weight: bold;
+  }
+  
