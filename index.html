@@ -1,85 +1,249 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI-tankkauspäivyri 1.0</title>
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        label {
+            width: 48%;
+            margin-bottom: 5px;
+        }
+
+        input[type="date"],
+        input[type="number"],
+        input[type="text"],
+        select {
+            width: 48%;
+            padding: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        #logList {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+        }
+
+        #logList h2 {
+            margin-top: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        table th {
+            background-color: #f2f2f2;
+        }
+
+        /* Media Query for Mobile Devices */
+        @media (max-width: 480px) {
+            form label, form input, form select {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
-
 <body>
-    <div class="top-bar">
-        <h1>AI-Tankkauspäivyri 1.0</h1>
-        <div id="languageDropdown">
-            <button class="languageButton">Language</button>
-            <div id="languageMenu" class="languageMenu">
-                <div class="languageOption" data-lang="en">English</div>
-                <div class="languageOption" data-lang="fi">Finnish</div>
-                <!-- Add other language options here as needed -->
-            </div>
-        </div>
-    </div>
+    <h1>AI-tankkauspäivyri 1.0</h1>
 
-    <div class="main-content">
-        <form id="refuelForm">
-            <!-- Input fields in two columns -->
-            <div class="refuel-inputs">
-                <div class="input-group">
-                    <label for="dateInput">Date:</label>
-                    <input type="date" id="dateInput">
-                </div>
-                <div class="input-group">
-                    <label for="kilometersInput">Kilometers:</label>
-                    <input type="number" id="kilometersInput" step="0.1" min="0" required>
-                </div>
-                <div class="input-group">
-                    <label for="litersInput">Liters:</label>
-                    <input type="number" id="litersInput" step="0.01" min="0" required>
-                </div>
-                <div class="input-group">
-                    <label for="fuelTypeInput">Fuel Type:</label>
-                    <select id="fuelTypeInput">
-                        <option value="95E10">95E10</option>
-                        <option value="98E5">98E5</option>
-                        <option value="RE85">RE85</option>
-                    </select>
-                </div>
-                <div class="input-group">
-                    <label for="petrolStationInput">Petrol Station:</label>
-                    <input type="text" id="petrolStationInput">
-                </div>
-                <div class="input-group">
-                    <label for="pricePerLiterInput">Price per Liter (€):</label>
-                    <input type="number" id="pricePerLiterInput" step="0.001" min="0" required>
-                </div>
-            </div>
-            <!-- Add Refuel button -->
-            <button id="addRefuelBtn" type="submit">Add Refuel</button>
-        </form>
+     <form id="refuelForm">
+        <label for="dateInput">Date:</label>
+        <input type="date" id="dateInput" required>
 
-        <!-- Log table -->
-        <table class="log-table">
+        <label for="odometerInput">Odometer (km):</label>
+        <input type="number" id="odometerInput" required>
+
+        <label for="fuelInput">Fuel (liters):</label>
+        <input type="number" id="fuelInput" step="0.01" required>
+
+        <label for="fuelTypeInput">Fuel Type:</label>
+        <select id="fuelTypeInput">
+            <option value="95E10">95E10</option>
+            <option value="98E5">98E5</option>
+            <option value="RE85">RE85</option>
+        </select>
+
+        <label for="priceInput">Price per Liter (€):</label>
+        <input type="text" id="priceInput" required>
+
+        <label for="petrolStationInput">Petrol Station:</label>
+        <input type="text" id="petrolStationInput" required>
+
+        <input type="submit" value="Log Refuel">
+    </form>
+
+    <div id="logList">
+        <h2>Refuel Log:</h2>
+        <table>
             <thead>
                 <tr>
-                    <th id="dateHeader">Date</th>
-                    <th id="kilometersHeader">Kilometers</th>
-                    <th id="litersHeader">Liters</th>
-                    <th id="fuelTypeHeader">Fuel Type</th>
-                    <th id="petrolStationHeader">Petrol Station</th>
-                    <th id="pricePerLiterHeader">Price per Liter (€)</th>
-                    <th id="totalCostHeader">Total Cost (€)</th>
-                    <th id="avgConsumptionHeader">Average Consumption (L/100km)</th>
+                    <th>Date</th>
+                    <th>Odometer (km)</th>
+                    <th>Fuel (liters)</th>
+                    <th>Fuel Type</th>
+                    <th>Price per Liter (€)</th>
+                    <th>Petrol Station</th>
+                    <th>Total Cost (€)</th>
+                    <th>Average Consumption (per 100 km)</th>
                 </tr>
             </thead>
-            <tbody id="logBody">
-                <!-- Log data will be dynamically inserted here -->
+            <tbody id="logItems">
+                <!-- Log entries will be added here -->
             </tbody>
         </table>
     </div>
 
-    <script src="languages.js"></script>
-    <script src="script.js"></script>
-</body>
+    <script>
+        // Function to display the refuel log on the page as a table
+        function displayLog() {
+            const logItems = JSON.parse(localStorage.getItem("refuelLog")) || [];
+            const logTableBody = document.getElementById("logItems");
+            logTableBody.innerHTML = "";
 
+            let previousOdometer = 0;
+            let previousFuel = 0;
+
+            logItems.forEach(item => {
+                const row = document.createElement("tr");
+                const createCell = content => {
+                    const cell = document.createElement("td");
+                    cell.textContent = content;
+                    return cell;
+                };
+
+                row.appendChild(createCell(item.date));
+                row.appendChild(createCell(`${item.odometer} km`));
+                row.appendChild(createCell(`${item.fuel} liters`));
+                row.appendChild(createCell(item.fuelType));
+                row.appendChild(createCell(`€${item.price.toFixed(2).replace(".", ",")}`));
+                row.appendChild(createCell(item.petrolStation));
+
+                const distanceSinceLastRefuel = item.odometer - previousOdometer;
+                const fuelConsumedSinceLastRefuel = item.fuel - previousFuel;
+                const averageConsumption = (fuelConsumedSinceLastRefuel / (distanceSinceLastRefuel / 100)).toFixed(2);
+                row.appendChild(createCell(`€${item.totalCost.toFixed(2).replace(".", ",")}`));
+                row.appendChild(createCell(`${averageConsumption} liters/100 km`));
+
+                previousOdometer = item.odometer;
+                previousFuel = item.fuel;
+
+                logTableBody.appendChild(row);
+            });
+        }
+
+        // Function to create a table cell with a specified content
+        function createTableCell(content) {
+            const cell = document.createElement("td");
+            cell.textContent = content;
+            return cell;
+        }
+
+        // Function to set the date input field to the current date as default
+        function setDefaultDate() {
+            const dateInput = document.getElementById("dateInput");
+            const currentDate = new Date();
+            const year = currentDate.getFullYear();
+            const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+            const day = String(currentDate.getDate()).padStart(2, '0');
+            const formattedDate = `${year}-${month}-${day}`;
+            dateInput.value = formattedDate;
+        }
+
+        // Function to set the fuel type field to the default option
+        function setDefaultFuelType() {
+            const fuelTypeInput = document.getElementById("fuelTypeInput");
+            fuelTypeInput.value = "95E10";
+        }
+
+        // Function to add a new refuel entry to the log
+        function logRefuel(event) {
+            event.preventDefault();
+
+            const date = document.getElementById("dateInput").value;
+            const odometer = parseFloat(document.getElementById("odometerInput").value);
+            const fuel = parseFloat(document.getElementById("fuelInput").value);
+            const fuelType = document.getElementById("fuelTypeInput").value;
+            const petrolStation = document.getElementById("petrolStationInput").value;
+            const priceInput = document.getElementById("priceInput").value;
+            const price = convertToDecimal(priceInput);
+            const totalCost = fuel * price;
+
+            const newEntry = {
+                date: date,
+                odometer: odometer,
+                fuel: fuel,
+                fuelType: fuelType,
+                petrolStation: petrolStation,
+                price: price,
+                totalCost: totalCost
+            };
+
+            const logItems = JSON.parse(localStorage.getItem("refuelLog")) || [];
+            logItems.push(newEntry);
+            localStorage.setItem("refuelLog", JSON.stringify(logItems));
+
+            document.getElementById("refuelForm").reset();
+            displayLog();
+        }
+
+        // Function to convert user input with comma to decimal (period) format
+        function convertToDecimal(str) {
+            return parseFloat(str.replace(",", "."));
+        }
+
+        // Attach event listener to the form submit
+        const form = document.getElementById("refuelForm");
+        form.addEventListener("submit", logRefuel);
+
+        // Set the default date and fuel type when the page loads
+        window.onload = function() {
+            setDefaultDate();
+            setDefaultFuelType();
+            displayLog();
+        };
+    </script>
+</body>
 </html>
