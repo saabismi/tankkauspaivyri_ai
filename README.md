@@ -1,5 +1,5 @@
 # AI-Tankkauspäivyri 1.0
- Tankkauspäivyrin AI-generoitu versio. 
+ Tankkauspäivyrin AI-generoitu versio. Toimii joten kuten, mutta laskee keskikulutuksen päin *****.
 
  Syötä tankkauksen tiedot ja ohjelma tekee niistä taulukon ja laskee keskikulutuksen.
  Tiedot tallennetaan selaimen muistiin.
